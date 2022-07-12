@@ -23,6 +23,7 @@ $ php -S 0.0.0.0:8000 index.php
 - 원본 릴리즈 언의 팩의 번역 값과 사용자 언어팩의 주석을 대조한다.
 
 # 언어팩 작업
+- see Korean pack
 ![image](https://user-images.githubusercontent.com/5427199/178419849-f0b5f4da-723b-4f5a-b123-2f39d73260ea.png)
 
 
