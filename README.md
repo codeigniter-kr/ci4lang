@@ -23,7 +23,7 @@ $ php -S 0.0.0.0:8000 index.php
 - Compare the original release language (En) value with the `comment' of the user language pack.
 
 # language pack work
-- see Korean pack
+- See Korean Language Pack.
 ![image](https://user-images.githubusercontent.com/5427199/178419849-f0b5f4da-723b-4f5a-b123-2f39d73260ea.png)
 
 
