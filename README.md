@@ -1,7 +1,7 @@
 
 # 설치법
 ```bash
-$ git clone https://github.com/Terrorboy/ci4lang
+$ git clone https://github.com/codeigniter-kr/ci4lang
 $ composer install
 ```
 
