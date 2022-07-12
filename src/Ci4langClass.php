@@ -1,4 +1,5 @@
 <?php
+
 namespace ci4lang\Ci4lang;
 
 use Rogervila\ArrayDiffMultidimensional;
