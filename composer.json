@@ -1,35 +1,37 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "terrorboy/ci4lang",
+    "description": "This is my package ci4lang",
     "keywords": [
-        ":vendor_name",
-        ":package_slug"
+        "Terrorboy",
+        "ci4lang"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/terrorboy/ci4lang",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Terrorboy",
+            "email": "z9n@kakao.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^7.4 || ^8.0",
+        "ext-intl": "*",
+        "jfcherng/php-diff": "^6.11",
+        "rogervila/array-diff-multidimensional": "^2.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "pestphp/pest": "^1.20",
-        "spatie/ray": "^1.28"
+        "ext-tokenizer": "*",
+        "codeigniter4/translations": "^4.2",
+        "codeigniter/coding-standard": "^1.1",
+        "codeigniter4/codeigniter4": "4.x-dev",
+        "friendsofphp/php-cs-fixer": "^3.1",
+        "nexusphp/cs-config": "^3.3",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "ci4lang\\Ci4lang\\": "src"
         }
     },
     "scripts": {
@@ -38,8 +40,22 @@
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
     "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
         "sort-packages": true
     },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "4.x-dev"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/codeigniter4/CodeIgniter4",
+            "canonical": true
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
