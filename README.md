@@ -5,6 +5,11 @@ $ git clone https://github.com/Terrorboy/ci4lang
 $ composer install
 ```
 
+# `index.php` 수정
+```
+$ci4lang = new Ci4lang\Ci4langClass('your locale');
+```
+
 # 실행
 ```base
 $ php -S 0.0.0.0:8000 index.php
