@@ -20,7 +20,7 @@ $ php -S 0.0.0.0:8000 index.php
 - browser : https://localhost:8000
 
 # how it works
-- Compare the original release language (En) value with the `comment' of the user language pack.
+- Compare the original release language (En) value with the `comment` of the user language pack.
 
 # language pack work
 - See Korean Language Pack.
