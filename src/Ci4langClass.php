@@ -113,7 +113,7 @@ class Ci4langClass
             $diff[$fileName] = [];
             foreach (($content??[]) as $variables=>$values) {
                 $diff[$fileName][$variables] = [
-                    'old'=>$values['value'],
+                    'old'=>$values['value']??'',
                     'new'=>$origin[$fileName][$variables]['value']??'',
                 ];
             }
