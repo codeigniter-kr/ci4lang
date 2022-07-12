@@ -20,3 +20,8 @@ $ php -S 0.0.0.0:8000 index.php
 
 # 스크린샷
 ![CleanShot 2022-07-12 at 14 30 43](https://user-images.githubusercontent.com/5427199/178416303-43539f7c-9d51-42e1-b773-1be9222893eb.png)
+
+
+```
+단순 작업용으로 레거시 코드로 이루어져 있습니다.
+```
