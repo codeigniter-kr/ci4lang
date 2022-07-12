@@ -6,6 +6,7 @@ $ composer install
 ```
 
 # `index.php` 수정
+- check: https://github.com/codeigniter4/translations#repository-information
 ```
 $ci4lang = new Ci4lang\Ci4langClass('your locale');
 ```
