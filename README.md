@@ -1,60 +1,17 @@
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
-
-# This is my package ci4lang
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/terrorboy/ci4lang.svg?style=flat-square)](https://packagist.org/packages/terrorboy/ci4lang)
-[![Tests](https://github.com/terrorboy/ci4lang/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/terrorboy/ci4lang/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/terrorboy/ci4lang.svg?style=flat-square)](https://packagist.org/packages/terrorboy/ci4lang)
-
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/ci4lang.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/ci4lang)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
-
-## Installation
-
-You can install the package via composer:
-
+# 설치법
 ```bash
-composer require terrorboy/ci4lang
+$ git clone https://github.com/Terrorboy/ci4lang
+$ composer install
 ```
 
-## Usage
-
-```php
-$skeleton = new ci4lang\Ci4lang();
-echo $skeleton->echoPhrase('Hello, ci4lang!');
+# 실행
+```base
+$ php -S 0.0.0.0:8000 index.php
 ```
 
-## Testing
+# 접속
+- 브라우저 : https://localhost:8000
 
-```bash
-composer test
-```
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [Terrorboy](https://github.com/Terrorboy)
-- [All Contributors](../../contributors)
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+# 스크린샷
+![CleanShot 2022-07-12 at 14 30 43](https://user-images.githubusercontent.com/5427199/178416303-43539f7c-9d51-42e1-b773-1be9222893eb.png)
