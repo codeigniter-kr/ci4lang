@@ -2,8 +2,6 @@
 
 namespace ci4lang\Ci4lang;
 
-use Rogervila\ArrayDiffMultidimensional;
-
 use Jfcherng\Diff\Differ;
 use Jfcherng\Diff\DiffHelper;
 use Jfcherng\Diff\Factory\RendererFactory;
@@ -108,27 +106,44 @@ class Ci4langClass
     private function mapDiffer(array $origin, array $target)
     {
         $diff = [];
-        $check = ArrayDiffMultidimensional::compare($target, $origin);
-        foreach (($check??[]) as $fileName=>$content) {
+        $merges = array_merge_recursive($target, $origin);
+        foreach (($merges??[]) as $fileName=>$data) {
             $diff[$fileName] = [];
-            foreach (($content??[]) as $variables=>$values) {
-                $diff[$fileName][$variables] = [
-                    'old'=>$values['value']??'',
-                    'new'=>$origin[$fileName][$variables]['value']??'',
+            foreach (($data??[]) as $valuesKey=>$values) {
+                $old = $target[$fileName][$valuesKey]??[];
+                $new = $origin[$fileName][$valuesKey]??[];
+                if (($old <=> $new) === 0) {
+                    continue;
+                }
+                if (is_array($merges[$fileName][$valuesKey]['value']??'') === false) {
+                    if (in_array($valuesKey, ['jsonErrorUnknown', 'jsonErrorUtf8'])) {
+                        if ((count($old) <=> count($new)) === 0) {
+                            continue;
+                        }
+                    }
+                }
+                $diff[$fileName][$valuesKey] = [
+                    'old'=>(count($old) > 0?$old['value']:'<span class="null_values">null</span>'),
+                    'new'=>(count($new) > 0?$new['value']:'<span class="null_values">null</span>'),
                 ];
             }
         }
-
+        foreach (($merges??[]) as $fileName=>$data) {
+            if (count($diff[$fileName]) == 0) {
+                unset($diff[$fileName]);
+            }
+        }
         return $diff;
     }
 
     private function diffTable(array $diff=[])
     {
+        $diffStyle = \Jfcherng\Diff\DiffHelper::getStyleSheet();
         echo '
             <style>
                 /* https://nanati.me/html_css_table_design/ */
                 table {
-                    width: 100%;
+                    width: 99%;
                     border-collapse: separate;
                     border-spacing: 0;
                     text-align: left;
@@ -154,115 +169,18 @@ class Ci4langClass
                     border-bottom: 1px solid #ccc;
                 }
 
-                /**
-                 * You can compile this by https://www.sassmeister.com with
-                 *
-                 * - dart-sass v1.18.0
-                 */
+                /* etc */
+                .en_value {
+                    color: #198754;
+                }
+                .null_values {
+                    color: #ff0000;
+                }
+
+                /* diff style */
+                '.$diffStyle.'
                 .diff-wrapper.diff {
-                    background: repeating-linear-gradient(-45deg, whitesmoke, whitesmoke 0.5em, #e8e8e8 0.5em, #e8e8e8 1em);
-                    border-collapse: collapse;
-                    border-spacing: 0;
-                    border: 1px solid black;
-                    color: black;
-                    empty-cells: show;
-                    font-family: monospace;
-                    font-size: 13px;
-                    width: 100%;
-                    word-break: break-all;
-                }
-                .diff-wrapper.diff th {
-                    font-weight: 700;
-                }
-                .diff-wrapper.diff td {
-                    vertical-align: baseline;
-                }
-                .diff-wrapper.diff td,
-                .diff-wrapper.diff th {
-                    border-collapse: separate;
-                    border: none;
-                    padding: 1px 2px;
-                    background: #fff;
-                }
-                .diff-wrapper.diff td:empty:after,
-                .diff-wrapper.diff th:empty:after {
-                    content: " ";
-                    visibility: hidden;
-                }
-                .diff-wrapper.diff td a,
-                .diff-wrapper.diff th a {
-                    color: #000;
-                    cursor: inherit;
-                    pointer-events: none;
-                }
-                .diff-wrapper.diff thead th {
-                    background: #a6a6a6;
-                    border-bottom: 1px solid black;
-                    padding: 4px;
-                    text-align: left;
-                }
-                .diff-wrapper.diff tbody.skipped {
-                    border-top: 1px solid black;
-                }
-                .diff-wrapper.diff tbody.skipped td,
-                .diff-wrapper.diff tbody.skipped th {
-                    display: none;
-                }
-                .diff-wrapper.diff tbody th {
-                    background: #cccccc;
-                    border-right: 1px solid black;
-                    text-align: right;
-                    vertical-align: top;
-                    width: 4em;
-                }
-                .diff-wrapper.diff tbody th.sign {
-                    background: #fff;
-                    border-right: none;
-                    padding: 1px 0;
-                    text-align: center;
-                    width: 1em;
-                }
-                .diff-wrapper.diff tbody th.sign.del {
-                    background: #fbe1e1;
-                }
-                .diff-wrapper.diff tbody th.sign.ins {
-                    background: #e1fbe1;
-                }
-                .diff-wrapper.diff.diff-html {
-                    white-space: pre-wrap;
-                }
-                .diff-wrapper.diff.diff-html.diff-combined .change.change-rep .rep {
-                    white-space: normal;
-                }
-                .diff-wrapper.diff.diff-html .change.change-eq .old,
-                .diff-wrapper.diff.diff-html .change.change-eq .new {
-                    background: #fff;
-                }
-                .diff-wrapper.diff.diff-html .change .old {
-                    background: #fbe1e1;
-                }
-                .diff-wrapper.diff.diff-html .change .new {
-                    background: #e1fbe1;
-                }
-                .diff-wrapper.diff.diff-html .change .rep {
-                    background: #fef6d9;
-                }
-                .diff-wrapper.diff.diff-html .change .old.none,
-                .diff-wrapper.diff.diff-html .change .new.none,
-                .diff-wrapper.diff.diff-html .change .rep.none {
-                    background: transparent;
-                    cursor: not-allowed;
-                }
-                .diff-wrapper.diff.diff-html .change ins,
-                .diff-wrapper.diff.diff-html .change del {
-                    font-weight: bold;
-                    text-decoration: none;
-                }
-                .diff-wrapper.diff.diff-html .change ins {
-                    background: #94f094;
-                }
-                .diff-wrapper.diff.diff-html .change del {
-                    background: #f09494;
+                    width: -webkit-fill-available;
                 }
             </style>
         ';
@@ -279,15 +197,15 @@ class Ci4langClass
                     <thead>
                         <tr>
                             <th>key</th>
-                            <th>old</th>
-                            <th>new</th>
+                            <th>en</th>
+                            <th>'.$this->lang.'</th>
                             <th>diff</th>
                         </tr>
                     </thead>
                     <tbody>
             ';
             foreach (($content??[]) as $variables=>$values) {
-                $jsonResult = DiffHelper::calculate($values['old'], $values['new'], 'Json'); // may store the JSON result in your database
+                $jsonResult = DiffHelper::calculate(strip_tags($values['old']??''), strip_tags($values['new']??''), 'Json');
                 $htmlRenderer = RendererFactory::make('Combined', [
                     'detailLevel'=>'line',
                     'lineNumbers'=>false,
@@ -297,8 +215,8 @@ class Ci4langClass
                 echo '
                     <tr>
                         <th>'.$variables.'</th>
+                        <td class="en_value">'.$values['new'].'</td>
                         <td>'.$values['old'].'</td>
-                        <td>'.$values['new'].'</td>
                         <td>'.$result.'</td>
                     </tr>
                 ';
