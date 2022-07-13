@@ -17,8 +17,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-intl": "*",
-        "jfcherng/php-diff": "^6.11",
-        "rogervila/array-diff-multidimensional": "^2.1"
+        "jfcherng/php-diff": "^6.11"
     },
     "require-dev": {
         "ext-tokenizer": "*",
