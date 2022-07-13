@@ -19,11 +19,12 @@ $ php -S 0.0.0.0:8000 index.php
 # 접속
 - 브라우저 : https://localhost:8000
 
-# 동작방식
-- Compare the original release language (En) value with the `comment` of the user language pack.
+# 설명
+- 메인 언어팩(en)의 값과 번역 하고자 하는 언어팩의 주석을 비교하여 변겅을 체크합니다.
+- 메인 언어팩(en)과 번역팩의 상화 키를 대조합니다.
 
 # 언어팩 작업
-- See Korean Language Pack.
+- 한국어 언어팩을 참조하세요.
 ![image](https://user-images.githubusercontent.com/5427199/178419849-f0b5f4da-723b-4f5a-b123-2f39d73260ea.png)
 
 # 스크린샷
