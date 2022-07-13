@@ -17,11 +17,8 @@ class Ci4langClass
 
     public function __construct(string $language='ko')
     {
-        // * path
         $this->ciPath = SYSTEMPATH.'Language';
         $this->langPath = SYSTEMPATH.'../../translations/Language';
-
-        // * default variables
         $this->lang = $language;
         $this->origin = $this->ciPath.'/en';
         $this->target = $this->langPath.'/'.$this->lang;
@@ -29,20 +26,14 @@ class Ci4langClass
 
     public function check()
     {
-        // * helper load
         helper('filesystem');
-
-        // * target path check
         if (is_dir($this->target) === false) {
             dd('There is no target translation pack.');
             return;
         }
-
-        // * mapping
         $originMap = $this->variablesMapping($this->origin, 'origin');
         $targetMap = $this->variablesMapping($this->target);
         $diff = $this->mapDiffer($originMap, $targetMap);
-
         $this->diffTable($diff);
     }
 
@@ -62,12 +53,28 @@ class Ci4langClass
         }
         $docBlockTmp = [];
         $docBlock = [];
+        if (file_exists($file) === false) {
+            return [];
+        }
+        $fileContent = require_once($file);
         $tokens = token_get_all(file_get_contents($file));
+        $deepArray = [];
         foreach ($tokens as $k=>$v) {
             if (empty($v) || empty($v[2])) {
                 continue;
             }
             if (in_array(token_name($v[0]), ['T_CONSTANT_ENCAPSED_STRING', 'T_COMMENT']) === false) {
+                continue;
+            }
+            $valuesKey = str_replace(['"', '\''], '', $v[1]);
+            if (is_array($fileContent[$valuesKey]??'')) {
+                $findArray = array_filter($fileContent[$valuesKey], function ($array) {
+                    return (is_array($array));
+                });
+                $deepArray = array_merge($deepArray, $this->deepArrayKeys($fileContent[$valuesKey]));
+                continue;
+            }
+            if (in_array($valuesKey, $deepArray)) {
                 continue;
             }
             if (token_name($v[0]) === 'T_CONSTANT_ENCAPSED_STRING' && empty($docBlockTmp[$v[2]])) {
@@ -103,6 +110,20 @@ class Ci4langClass
         return $docBlock;
     }
 
+    private function deepArrayKeys(array|string $data)
+    {
+        $keys = [];
+        if (is_array($data)) {
+            foreach ($data as $k=>$v) {
+                if (is_array($v)) {
+                    $keys[] = $k;
+                    $this->deepArrayKeys($v);
+                }
+            }
+        }
+        return $keys;
+    }
+
     private function mapDiffer(array $origin, array $target)
     {
         $diff = [];
@@ -116,10 +137,8 @@ class Ci4langClass
                     continue;
                 }
                 if (is_array($merges[$fileName][$valuesKey]['value']??'') === false) {
-                    if (in_array($valuesKey, ['jsonErrorUnknown', 'jsonErrorUtf8'])) {
-                        if ((count($old) <=> count($new)) === 0) {
-                            continue;
-                        }
+                    if ((count($old) <=> count($new)) === 0) {
+                        continue;
                     }
                 }
                 $diff[$fileName][$valuesKey] = [

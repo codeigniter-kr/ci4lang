@@ -26,10 +26,8 @@ $ php -S 0.0.0.0:8000 index.php
 - See Korean Language Pack.
 ![image](https://user-images.githubusercontent.com/5427199/178419849-f0b5f4da-723b-4f5a-b123-2f39d73260ea.png)
 
-
 # screenshot
-![CleanShot 2022-07-12 at 14 30 43](https://user-images.githubusercontent.com/5427199/178416303-43539f7c-9d51-42e1-b773-1be9222893eb.png)
-
+![image](https://user-images.githubusercontent.com/5427199/178733471-39818fcf-6507-43bc-8f13-18f32263c5b2.png)
 
 ```
 Worked with legacy for simplicity check.
