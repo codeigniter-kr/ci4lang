@@ -116,7 +116,11 @@ class Ci4langClass
                     continue;
                 }
                 if (is_array($merges[$fileName][$valuesKey]['value']??'') === false) {
-                    continue;
+                    if (in_array($valuesKey, ['jsonErrorUnknown', 'jsonErrorUtf8'])) {
+                        if ((count($old) <=> count($new)) === 0) {
+                            continue;
+                        }
+                    }
                 }
                 $diff[$fileName][$valuesKey] = [
                     'old'=>(count($old) > 0?$old['value']:'<span class="null_values">null</span>'),
