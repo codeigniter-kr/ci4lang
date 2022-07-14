@@ -7,6 +7,8 @@ use Jfcherng\Diff\DiffHelper;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 
+use CodeIgniter\CLI\CLI;
+
 class Ci4langClass
 {
     private string $lang = 'ko';
@@ -17,6 +19,7 @@ class Ci4langClass
 
     public function __construct(string $language='ko')
     {
+        helper('filesystem');
         $this->ciPath = SYSTEMPATH.'Language';
         $this->langPath = SYSTEMPATH.'../../translations/Language';
         $this->lang = $language;
@@ -26,7 +29,6 @@ class Ci4langClass
 
     public function check()
     {
-        helper('filesystem');
         if (is_dir($this->target) === false) {
             dd('There is no target translation pack.');
             return;
@@ -35,6 +37,27 @@ class Ci4langClass
         $targetMap = $this->variablesMapping($this->target);
         $diff = $this->mapDiffer($originMap, $targetMap);
         $this->diffTable($diff);
+    }
+
+    public function cli()
+    {
+        if (is_dir($this->target) === false) {
+            CLI::write('There is no target translation pack.', 'light_gray', 'red');
+            exit;
+        }
+
+        CLI::write('Start '.$this->lang.' check...', 'black', 'green');
+        $originMap = $this->variablesMapping($this->origin, 'origin');
+        $targetMap = $this->variablesMapping($this->target);
+        $diff = $this->mapDiffer($originMap, $targetMap);
+
+        $cliThead = ['file', 'key'];
+        $cliTbody = [];
+        $maxlen = max(array_map('strlen', array_keys($diff)));
+        foreach ($diff as $key => $value) {
+            $cliTbody[] = [$key, CLI::wrap(implode(', ', array_keys($value)), 50, $maxlen+5)];
+        }
+        CLI::table($cliTbody);
     }
 
     private function variablesMapping(string $path='', string $type='target')

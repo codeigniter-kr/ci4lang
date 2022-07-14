@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+require_once('vendor/autoload.php');
+require_once(__DIR__ . '/vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php');
+
+use CodeIgniter\CLI\CLI;
+use ci4lang\Ci4lang;
+
+CLI::write('Running `composer update`...', 'black', 'green');
+passthru('composer update --ansi');
+CLI::write();
+
+$locale = CLI::prompt('Enter locale: ');
+if (empty($locale)) {
+    CLI::write('Locale is empty.', 'light_gray', 'red');
+    exit;
+}
+
+$ci4lang = new Ci4lang\Ci4langClass($locale);
+$ci4lang->cli();
