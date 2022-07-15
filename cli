@@ -1,20 +1,43 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
+
+// @ CLI 정리
+$cli = $argv??[];
+$run = $cli[1]??null;
+
+// @ 공통 실행
+// * composer install
+if (file_exists('vendor/autoload.php') === false) {
+    passthru('composer install');
+}
+
+// * composer update
+passthru('composer update --ansi');
+
+// * git submodule update
+passthru('git submodule init && git submodule update --recursive');
+
+
 require_once('vendor/autoload.php');
 require_once(__DIR__ . '/vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php');
 
 use CodeIgniter\CLI\CLI;
 use ci4lang\Ci4lang;
 
-CLI::write('Running `composer update`...', 'black', 'green');
-passthru('composer update --ansi');
-CLI::write();
+// @ run
+if ($run == 'web') {
+    $port = $cli[2]??8000;
+    passthru('php -S 0.0.0.0:'.$port.' index.php');
+} else {
+    $locale = $run;
+    if ($locale === null) {
+        $locale = CLI::prompt('Enter locale: ');
+        if (empty($locale)) {
+            CLI::write('Locale is empty.', 'light_gray', 'red');
+            exit;
+        }
+    }
 
-$locale = CLI::prompt('Enter locale: ');
-if (empty($locale)) {
-    CLI::write('Locale is empty.', 'light_gray', 'red');
-    exit;
+    $ci4lang = new Ci4lang\Ci4langClass($locale);
+    $ci4lang->cli();
 }
-
-$ci4lang = new Ci4lang\Ci4langClass($locale);
-$ci4lang->cli();

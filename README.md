@@ -2,7 +2,6 @@
 # 설치방법
 ```bash
 $ git clone https://github.com/codeigniter-kr/ci4lang
-$ composer install
 ```
 
 # 언어팩 작업
@@ -21,6 +20,10 @@ $ composer install
 ```bash
 $ php cli
 ```
+or
+```bash
+$ php cli ko
+```
 
 ## CLI 스크린샷
 ![image](https://user-images.githubusercontent.com/5427199/178884548-11f65862-6f5d-45ea-b05a-f7e7f6ec3c9f.png)
@@ -36,7 +39,7 @@ $ci4lang = new Ci4lang\Ci4langClass('your locale');
 
 ## 실행
 ```bash
-$ php -S 0.0.0.0:8000 index.php
+$ php cli web 8000
 ```
 
 ## 접속
