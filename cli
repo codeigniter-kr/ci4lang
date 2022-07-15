@@ -10,11 +10,20 @@ use ci4lang\Ci4lang;
 $cli = $argv??[];
 $run = $cli[1]??null;
 
-// 공통 실행
+// @ 공통 실행
+// * composer install
+if (file_exists('vendor/autoload.php') === false) {
+    CLI::write('Running `composer install`...', 'black', 'green');
+    passthru('composer install');
+    CLI::write();
+}
+
+// * composer update
 CLI::write('Running `composer update`...', 'black', 'green');
 passthru('composer update --ansi');
 CLI::write();
 
+// * git submodule update
 CLI::write('Running `submodule update`...', 'black', 'green');
 passthru('git submodule init && git submodule update --recursive');
 

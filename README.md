@@ -2,7 +2,6 @@
 # 설치방법
 ```bash
 $ git clone https://github.com/codeigniter-kr/ci4lang
-$ composer install
 ```
 
 # 언어팩 작업
