@@ -1,32 +1,30 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
-require_once('vendor/autoload.php');
-require_once(__DIR__ . '/vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php');
 
-use CodeIgniter\CLI\CLI;
-use ci4lang\Ci4lang;
-
-// CLI 정리
+// @ CLI 정리
 $cli = $argv??[];
 $run = $cli[1]??null;
 
 // @ 공통 실행
 // * composer install
 if (file_exists('vendor/autoload.php') === false) {
-    CLI::write('Running `composer install`...', 'black', 'green');
     passthru('composer install');
-    CLI::write();
 }
 
 // * composer update
-CLI::write('Running `composer update`...', 'black', 'green');
 passthru('composer update --ansi');
-CLI::write();
 
 // * git submodule update
-CLI::write('Running `submodule update`...', 'black', 'green');
 passthru('git submodule init && git submodule update --recursive');
 
+
+require_once('vendor/autoload.php');
+require_once(__DIR__ . '/vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php');
+
+use CodeIgniter\CLI\CLI;
+use ci4lang\Ci4lang;
+
+// @ run
 if ($run == 'web') {
     $port = $cli[2]??8000;
     passthru('php -S 0.0.0.0:'.$port.' index.php');
