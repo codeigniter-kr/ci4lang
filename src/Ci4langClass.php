@@ -21,7 +21,7 @@ class Ci4langClass
     {
         helper('filesystem');
         $this->ciPath = SYSTEMPATH.'Language';
-        $this->langPath = SYSTEMPATH.'../../translations/Language';
+        $this->langPath = __DIR__.'/../translations/Language';
         $this->lang = $language;
         $this->origin = $this->ciPath.'/en';
         $this->target = $this->langPath.'/'.$this->lang;
