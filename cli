@@ -6,15 +6,31 @@ require_once(__DIR__ . '/vendor/codeigniter4/codeigniter4/system/Test/bootstrap.
 use CodeIgniter\CLI\CLI;
 use ci4lang\Ci4lang;
 
+// CLI 정리
+$cli = $argv??[];
+$run = $cli[1]??null;
+
+// 공통 실행
 CLI::write('Running `composer update`...', 'black', 'green');
 passthru('composer update --ansi');
 CLI::write();
 
-$locale = CLI::prompt('Enter locale: ');
-if (empty($locale)) {
-    CLI::write('Locale is empty.', 'light_gray', 'red');
-    exit;
-}
+CLI::write('Running `submodule update`...', 'black', 'green');
+passthru('git submodule init && git submodule update --recursive');
 
-$ci4lang = new Ci4lang\Ci4langClass($locale);
-$ci4lang->cli();
+if ($run == 'web') {
+    $port = $cli[2]??8000;
+    passthru('php -S 0.0.0.0:'.$port.' index.php');
+} else {
+    $locale = $run;
+    if ($locale === null) {
+        $locale = CLI::prompt('Enter locale: ');
+        if (empty($locale)) {
+            CLI::write('Locale is empty.', 'light_gray', 'red');
+            exit;
+        }
+    }
+
+    $ci4lang = new Ci4lang\Ci4langClass($locale);
+    $ci4lang->cli();
+}
