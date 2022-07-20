@@ -29,7 +29,7 @@ if ($run == 'web') {
     $port = $cli[2]??8000;
     passthru('php -S 0.0.0.0:'.$port.' index.php');
 } else {
-    $locale = $run;
+    $locale = $cli[2]??null;
     if ($locale === null) {
         $locale = CLI::prompt('Enter locale: ');
         if (empty($locale)) {
