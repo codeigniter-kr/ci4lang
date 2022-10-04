@@ -15,7 +15,7 @@ if (file_exists('vendor/autoload.php') === false) {
 passthru('composer update --ansi');
 
 // * git submodule update
-passthru('git submodule init && git submodule update --recursive');
+passthru('git submodule init && git submodule update --recursive --remote');
 
 
 require_once('vendor/autoload.php');
